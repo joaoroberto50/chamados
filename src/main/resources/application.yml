@@ -1,0 +1,22 @@
+server:
+   error:
+      include-stacktrace: on_param
+      
+spring:
+   datasource:
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/chamados
+      username: postgres
+      password: root1234
+   jpa:
+      hibernate:
+         ddl-auto: update
+      database: postgresql
+      generate-dll: true
+      show-sql: true
+   
+management:
+   endpoints:
+      web:
+         exposure:
+            include: info, health, metrics

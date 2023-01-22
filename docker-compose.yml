@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    container_name: call_psql
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - psql_server_call_data:/var/lib/psql
+
+volumes:
+  psql_server_call_data:

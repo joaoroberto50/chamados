@@ -1,0 +1,30 @@
+version: '2'
+services:
+  chamados:
+    image: 'docker-spring-boot-postgres:latest'
+    restart: always
+    build:
+      context: .
+    ports:
+      - 8000-8999:8080
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/chamados
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root1234
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: postgres
+    container_name: call_psql_final
+    environment:
+      - POSTGRES_PASSWORD=root1234
+      - POSTGRES_DB=chamados
+    ports:
+      - "5432:5432"
+    volumes:
+      - psql_server_call_data1:/var/lib/psql
+
+volumes:
+  psql_server_call_data1:
