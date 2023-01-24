@@ -56,6 +56,7 @@ Serão inseridos três usuarios no banco de dados, um de cada grupo (ADMIN, SUPP
 |admin           |test123                        |ADMIN                        |
 |supporter       |test123                        |SUPPORTER                    |
 |user            |test123                        |COMMUN_USER                  |
+
 Lembrando que o usuario do grupo COMMUN_USER pode abrir os chamados, o usuario do grupo SUPPORTER pode classificar e fechar os chamado, usuarios do grupo ADMIN pode fazer tudo isso e ainda podem excluir os chamados.
 ## Consumindo a api
 Para obter detalhes dos endpoints e metodos da api acesse: http://localhost:8080/swagger-ui/index.html (Spring-openapi).
