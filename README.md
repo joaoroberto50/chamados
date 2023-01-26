@@ -46,7 +46,7 @@ Acima foi usado como exemplo a criação de cinco instancias da aplicação, mas
 ## Criando usuários pra logar na api
 Por enquanto a criação de usuarios ainda é manual via inserção direta no banco de dados. mas para testar a api você pode executar o seguinte script para criar alguns usuarios na base de dados.
 
-Com o banco de dados e a aplicação rodando, no diretorio ``src/main/docker`` execute:
+Com o banco de dados e a aplicação rodando, no diretório ``src/main/docker`` execute:
 ```
 ./inserts.sh
 ```
@@ -56,6 +56,15 @@ Serão inseridos três usuarios no banco de dados, um de cada grupo (ADMIN, SUPP
 |admin           |test123                        |ADMIN                        |
 |supporter       |test123                        |SUPPORTER                    |
 |user            |test123                        |COMMUN_USER                  |
+
+Também existe um script, també no diretório ``src/mai/docker``, para criar usuarios unitarios, com senha, username e grupo da sua escolha. Veja a seguir:
+```
+./user_creator.sh -c username password ROLE
+```
+Para mais detalhes execute:
+```
+./user_creator.sh -h
+```
 
 Lembrando que o usuario do grupo COMMUN_USER pode abrir os chamados, o usuario do grupo SUPPORTER pode classificar e fechar os chamado, usuarios do grupo ADMIN pode fazer tudo isso e ainda podem excluir os chamados.
 ## Consumindo a api
