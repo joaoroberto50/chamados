@@ -53,3 +53,6 @@ local.properties
 
 ### Locally stored "Eclipse launch configurations" ###
 *.launch
+
+### Python ###
+__pycache__/
