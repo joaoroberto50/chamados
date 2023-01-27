@@ -20,7 +20,6 @@ import br.com.bugbuilder.chamado.repository.ChamadoRepository;
 import br.com.bugbuilder.chamado.repository.UserChamadoRepository;
 import br.com.bugbuilder.chamado.requests.ChamadoListGetRequestBody;
 import br.com.bugbuilder.chamado.requests.ChamadoClassificationPutRequestBody;
-import br.com.bugbuilder.chamado.requests.ChamadoClosingPutRequestBody;
 import br.com.bugbuilder.chamado.requests.ChamadoPostRequestBody;
 import br.com.bugbuilder.chamado.util.DateTimeUtil;
 import lombok.RequiredArgsConstructor;
@@ -59,8 +58,8 @@ public class ChamadoService {
 		chamadoRepository.delete(this.findByIdOrElseThrowBadRequest(id));
 	}
 
-	public void replaceClassificationCall(ChamadoClassificationPutRequestBody chamadoClassification) {
-		ChamadoModel saveCall = this.findByIdOrElseThrowBadRequest(chamadoClassification.getId());
+	public void replaceClassificationCall(ChamadoClassificationPutRequestBody chamadoClassification, UUID id) {
+		ChamadoModel saveCall = this.findByIdOrElseThrowBadRequest(id);
 		ChamadoModel chamado = ChamadoModel.builder()
 				.id(saveCall.getId()).title(saveCall.getTitle()).description(saveCall.getDescription())
 				.open(saveCall.isOpen()).classificationName(chamadoClassification.getClassificationName())
@@ -70,9 +69,9 @@ public class ChamadoService {
 		chamadoRepository.save(chamado);
 	}
 
-	public void replaceClosingCall(ChamadoClosingPutRequestBody chamadoClosing, UserDetails userDetails) {
+	public void replaceClosingCall(UUID id, UserDetails userDetails) {
 		UserChamadoModel user = this.getUserModelByUserDetails(userDetails);
-		ChamadoModel saveCall = this.findByIdOrElseThrowBadRequest(chamadoClosing.getId());
+		ChamadoModel saveCall = this.findByIdOrElseThrowBadRequest(id);
 		ChamadoModel chamado = ChamadoModel.builder()
 				.id(saveCall.getId()).title(saveCall.getTitle()).description(saveCall.getDescription()).open(false)
 				.classificationName(saveCall.getClassificationName()).openingCallDate(saveCall.getOpeningCallDate())

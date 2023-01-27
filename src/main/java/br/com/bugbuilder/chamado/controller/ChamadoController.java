@@ -30,7 +30,6 @@ import br.com.bugbuilder.chamado.models.RoleModel;
 import br.com.bugbuilder.chamado.models.RoleName;
 import br.com.bugbuilder.chamado.requests.ChamadoListGetRequestBody;
 import br.com.bugbuilder.chamado.requests.ChamadoClassificationPutRequestBody;
-import br.com.bugbuilder.chamado.requests.ChamadoClosingPutRequestBody;
 import br.com.bugbuilder.chamado.requests.ChamadoPostRequestBody;
 import br.com.bugbuilder.chamado.service.ChamadoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -96,13 +95,22 @@ public class ChamadoController {
 			chamado.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ChamadoController.class)
 					.delete(chamado.getId())).withRel("delete"));
 		
-		System.out.println(user.getUsername());
-		if ((chamado.isOpen() && (user.getAuthorities().contains(this.roleAdmin) || user.getAuthorities().contains(this.roleSupporter)))
-				|| chamado.getRequesterUser().getUsername().equals(user.getUsername()) || 
-				chamado.getAttendantUser().getUsername().equals(user.getUsername()) || user.getAuthorities().contains(this.roleAdmin))
-			return ResponseEntity.ok(chamado);
-		else
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); 
+		if (chamado.getAttendantUser() == null) {
+			if ((chamado.isOpen() && (user.getAuthorities().contains(this.roleAdmin) || user.getAuthorities().contains(this.roleSupporter)))
+					|| chamado.getRequesterUser().getUsername().equals(user.getUsername()) || 
+					user.getAuthorities().contains(this.roleAdmin))
+				return ResponseEntity.ok(chamado);
+			else
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+		}
+		else {
+			if ((chamado.isOpen() && (user.getAuthorities().contains(this.roleAdmin) || user.getAuthorities().contains(this.roleSupporter)))
+					|| chamado.getRequesterUser().getUsername().equals(user.getUsername()) || 
+					chamado.getAttendantUser().getUsername().equals(user.getUsername()) || user.getAuthorities().contains(this.roleAdmin))
+				return ResponseEntity.ok(chamado);
+			else
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null); 
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPPORTER','ROLE_COMMUN_USER')")
@@ -191,21 +199,22 @@ public class ChamadoController {
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPPORTER')")
-	@PatchMapping(path = "/classificate")
-	public ResponseEntity<Void> classifcateCall(@RequestBody ChamadoClassificationPutRequestBody chamadoClassification){
-		chamadoService.replaceClassificationCall(chamadoClassification);
+	@PatchMapping(path = "/classificate/{id}")
+	public ResponseEntity<Void> classifcateCall(@RequestBody ChamadoClassificationPutRequestBody chamadoClassification,
+			@PathVariable UUID id){
+		chamadoService.replaceClassificationCall(chamadoClassification, id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPPORTER')")
-	@PatchMapping(path = "/close")
+	@PatchMapping(path = "/close/{id}")
 	@ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfull."),
             @ApiResponse(responseCode = "400", description = "Id does not macth with none saved id")
     })
-	public ResponseEntity<Void> closingCall(@RequestBody ChamadoClosingPutRequestBody chamadoClosing, 
+	public ResponseEntity<Void> closingCall(@PathVariable UUID id, 
 			@AuthenticationPrincipal UserDetails user) {
-		chamadoService.replaceClosingCall(chamadoClosing, user);
+		chamadoService.replaceClosingCall(id, user);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

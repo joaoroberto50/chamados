@@ -218,7 +218,6 @@ public class GeneralCreator {
 	
 	public static ChamadoClassificationPutRequestBody chamadoClassificationPut() {
 		return ChamadoClassificationPutRequestBody.builder()
-				.id(UUID.fromString("f11caf35-57d7-455c-8a8a-b01019ee835c"))
 				.classificationName(ClassificationName.URGENTE).build();
 	}
 	

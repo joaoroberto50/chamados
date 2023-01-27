@@ -165,10 +165,10 @@ public class ChamdoControllerTest {
 	@Test
 	@DisplayName("Classificate a call")
 	void classificateCall_ClassificateChamado_WhenSuccessfull() {
-		Assertions.assertThatCode(() -> chamadoController.classifcateCall(GeneralCreator.chamadoClassificationPut()))
+		Assertions.assertThatCode(() -> chamadoController.classifcateCall(GeneralCreator.chamadoClassificationPut(), GeneralCreator.chamadoJustCreatedValid().getId()))
 			.doesNotThrowAnyException();
 		
-		ResponseEntity<Void> entity = chamadoController.classifcateCall(GeneralCreator.chamadoClassificationPut());
+		ResponseEntity<Void> entity = chamadoController.classifcateCall(GeneralCreator.chamadoClassificationPut(), GeneralCreator.chamadoJustCreatedValid().getId());
 		
 		Assertions.assertThat(entity).isNotNull();
 		Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -177,10 +177,10 @@ public class ChamdoControllerTest {
 	@Test
 	@DisplayName("Close a call")
 	void closingCall_CloseChamado_WhenSuccessfull() {
-		Assertions.assertThatCode(() -> chamadoController.closingCall(GeneralCreator.chamadoClosingPut(), GeneralCreator.userDetailSupporterValid()))
+		Assertions.assertThatCode(() -> chamadoController.closingCall(GeneralCreator.chamadoClosingPut().getId(), GeneralCreator.userDetailSupporterValid()))
 			.doesNotThrowAnyException();
 		
-		ResponseEntity<Void> entity = chamadoController.closingCall(GeneralCreator.chamadoClosingPut(), GeneralCreator.userDetailSupporterValid());
+		ResponseEntity<Void> entity = chamadoController.closingCall(GeneralCreator.chamadoClosingPut().getId(), GeneralCreator.userDetailSupporterValid());
 		
 		Assertions.assertThat(entity).isNotNull();
 		Assertions.assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
